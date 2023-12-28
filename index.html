@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/style.css">
+
     <title>Document</title>
 </head>
 <style>
@@ -26,39 +27,74 @@
         align-items: center;
         flex-wrap: wrap;
         flex-direction: column;
+        /* opacity: 0.95; */
     }
 
     h1 {
         color: white;
     }
 
-    aside {
+    .side-by-side {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #main{
+        /* border: 2px solid blue; */
+        display: flex;
+    }
+    .bg-w {
         background-color: white;
-        margin: 0px;
-        padding: 10px;
     }
 
+    .flex-sp-btw {
+        display: flex;
+        justify-content: space-between;
+    }
+    .flex-end{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .flex-start{
+        display: flex;
+        justify-content: flex-start;
+    }
+    .flex-center{
+        display: flex;
+        justify-content: flex-center;
+    }
+    .weather-card {
+        background-color: #577ABA;
+        margin: 0px 20px 20px 0px;
+        padding: 0px 20px 0px 20px;
+        border-radius: 20px;
+        color: white;
+    }
+    #my-searches{
+        /* border: 2px solid black; */
+        margin: 0px 20px 20px 0px;
+        /* padding: 0px 20px 0px 20px; */
+        align-items: ;
+    }
 
+    .five-day-cards {
+        margin: 0px 20px;
+        display: flex;
+        /* border: 2px solid black; */
+        flex-wrap: wrap;
+        vertical-align: top;
+    }
 
-    ul {
+    #search-history {
         width: max-content;
     }
 
-    li {
-        list-style-type: none;
-        background-color: #81AAE2;
+    #search-history li {
+        background-color: #577ABA;
+        list-style: none;
         color: white;
-        padding: 3px 200px 3px 10px;
-        margin: 2px;
-        border-radius: 5px;
-        border: 1px solid white
-            /* background-image: linear-gradient(rgb(61, 61, 119), rgb(176, 176, 223)); */
-    }
-
-    p {
-        margin: 0px;
-        font-size: 15px;
-        border-bottom: 1px rgb(255, 255, 255) solid;
+        border-radius: 3px;
+        margin: 5px;
+        padding: 5px 100px 5px 5px;
     }
 
     #input-field {
@@ -72,15 +108,21 @@
         border-radius: 20px;
         border: none;
         border-color: white;
+        width: 270px;
     }
 
     #input-field img {
-            position: absolute;
-            bottom: 27px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
-        }
+        position: absolute;
+        bottom: 27px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        background: url('./assets/images/search_icon.png');
+    }
+
+    #input-field img:hover {
+        width: 21px;
+        height: 21px;
     }
 </style>
 
@@ -88,21 +130,74 @@
     <header>
         <h1>Tell me the Weather</h1>
         <div id="input-field">
-            <input type="text" name="city-search" id="city-search" placeholder="Search: City">
-            <img src="./assets/images/search_icon.png" alt="">
+            <input type="text" name="city-search" id="search-input" placeholder="Search: City">
+            <img src="./assets/images/search_icon.png" alt="magnifying glass icon" id="search-button">
         </div>
     </header>
-    <aside id="my-searches">
-        <ul>
-            <p>Search History</p>
-            <li>Hello</li>
-            <li>asdf</li>
-            <li>aasdf</li>
-        </ul>
-    </aside>
+    <main id='main' class="bg-w">
+        <aside id="my-searches" class="stack">
+            <ul id="search-history">
+                <p>Search History</p>
+                <li>Provo Utah</li>
+                <li>Provo Utah</li>
+                <li>Provo Utah</li>
+            </ul>
+        </aside>
+        <div id="five-day-cards" class='flex-center'>
+            <div class="single-cards" class='side-by-side'>
+                <p id="day-1">Monday</p>
+                <ul class="weather-card">
+                    <p class="weather-detail">Orem, Utah</li>
+                    <p class="weather-detail">Temp: 32°F</p>
+                    <p class="weather-detail">Humidity 62%</p>
+                    <p class="weather-detail">60 MPH</p>
+                </ul>
+            </div>
+            <!-- <div class="single-cards" class='side-by-side'>
+                <p id="day-2">Tuesday</p>
+                <ul class="weather-card">
+                    <p class="weather-detail">Orem, Utah</li>
+                    <p class="weather-detail">Temp: 32°F</p>
+                    <p class="weather-detail">Humidity 62%</p>
+                    <p class="weather-detail">60 MPH</p>
+                </ul>
+            </div>
+            <div class="single-cards" class='side-by-side'>
+                <p id="day-3">Wednesday</p>
+                <ul class="weather-card">
+                    <p class="weather-detail">Orem, Utah</li>
+                    <p class="weather-detail">Temp: 32°F</p>
+                    <p class="weather-detail">Humidity 62%</p>
+                    <p class="weather-detail">60 MPH</p>
+                </ul>
+            </div>
+            <div class="single-cards" class='side-by-side'>
+                <p id="day-4">Thursday</p>
+                <ul class="weather-card">
+                    <p class="weather-detail">Orem, Utah</li>
+                    <p class="weather-detail">Temp: 32°F</p>
+                    <p class="weather-detail">Humidity 62%</p>
+                    <p class="weather-detail">60 MPH</p>
+                </ul>
+            </div>
+            <div class="single-cards" class='side-by-side'>
+                <p id="day-5">Friday</p>
+                <ul class="weather-card">
+                    <p class="weather-detail">Orem, Utah</li>
+                    <p class="weather-detail">Temp: 32°F</p>
+                    <p class="weather-detail">Humidity 62%</p>
+                    <p class="weather-detail">60 MPH</p>
+                </ul>
+            </div> -->
+            
+        </div>
+
+ 
+    </main>
 
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="./assets/script.js"></script>
 
 </html>
