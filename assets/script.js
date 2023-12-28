@@ -2,30 +2,53 @@ let x = 5;
 let searchButtonEl = $('#search-button');
 let searchInputEl = $('#search-input');
 
-searchButtonEl.on('click', async () => {
+searchButtonEl.on('click', () => {
+    displayWeatherCards();
+})
+searchInputEl.on('keypress', (event) => {
+    if (event.key === "Enter"){
+        event.preventDefault();
+        displayWeatherCards();
+    }   
+})
+
+function displayWeatherCards() {
     let city = searchInputEl.val();
 
     var fiveDayApikey = '5a48e8bfa31d3c2a506e7232ebe1fe5c';
     let geocodingApiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${fiveDayApikey}`;
 
     let data;
+    let cityState;
 
+    // <aside id="my-searches" class="stack">
+    //         <ul id="search-history">
+    //             <p>Search History</p>
+    //             <li>Provo Utah</li>
+    //             <li>Provo Utah</li>
+    //             <li>Provo Utah</li>
+    //         </ul>
+    //     </aside>
     if (searchInputEl) {
-        try {
-            const geocodingResponse = await fetch(geocodingApiUrl);
-            data = await geocodingResponse.json();
+        fetch(geocodingApiUrl)
+            .then(response => response.json())
+            .then(geocodingData => {
+                data = geocodingData;
+                cityState = `${data[0].name}, ${data[0].state}`;
 
-            if (data && data.length > 0) {
-                const lon = data[0].lon;
-                const lat = data[0].lat;
-                const cityState = `${data[0].name}, ${data[0].state}`;
-                let fiveDayForcast = `http://api.openweathermap.org/data/2.5/forecast?cnt=35&units=imperial&lat=${lat}&lon=${lon}&appid=${fiveDayApikey}`;
+                if (data && data.length > 0) {
+                    const lon = data[0].lon;
+                    const lat = data[0].lat;
 
-                $('#search-history').append(`<p>${cityState}</p>`);
+                    let fiveDayForcast = `http://api.openweathermap.org/data/2.5/forecast?cnt=35&units=imperial&lat=${lat}&lon=${lon}&appid=${fiveDayApikey}`;
 
-                const forecastResponse = await fetch(fiveDayForcast);
-                const fiveDayForcastData = await forecastResponse.json();
+                    $('#search-history').append(`<li>${cityState}</li>`);
 
+                    return fetch(fiveDayForcast);
+                }
+            })
+            .then(fiveDayForcastDataResponse => fiveDayForcastDataResponse.json())
+            .then(fiveDayForcastData => {
                 const weatherCard = $('#five-day-cards');
 
                 for (let i = 0; i < 35; i += 8) {
@@ -44,15 +67,17 @@ searchButtonEl.on('click', async () => {
                                 <p class="weather-detail">Humidity: ${humidity}</p>
                                 <p class="weather-detail">Wind Speed: ${wind}</p>
                             </ul>
-                        </div>
-                    `);
+                        </div>`);
                 }
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
-});
+}
+
+
+
 
 function appendSearchResult(append, searchInput, tag) {
     $('#search-history').append(`<${tag}>${searchInput}<${tag}>`);
